@@ -1,0 +1,15 @@
+{
+    "name": "tarcisio/php-financas",
+    "authors": [
+        {
+            "name": "tarcisiocorte",
+            "email": "tarcisiocorte@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "TCCP.FIN\\": "src/"
+        }
+    }
+}
