@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 namespace TCCP;
 
+use TCCP\Plugins\PluginInterface;
+
 class Application
 {
     private $serviceContainer;
@@ -20,13 +22,16 @@ class Application
         return $this->serviceContainer->get($name);
     }
 
-    public function addService(string $name, $service)
-    {
+    public function addService(string $name, $service):void{
         if (is_callable($service)) {
             $this->serviceContainer->addLazy($name, $service);
         } else {
             $this->serviceContainer->add($name, $service);
         }
+    }
+
+    public function plugin(PluginInterface $plugin):void{
+        $plugin->register($this->serviceContainer);
     }
 }
 ?>
