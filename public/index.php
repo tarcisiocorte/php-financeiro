@@ -3,6 +3,8 @@
 use TCCP\Application;
 use TCCP\Plugins\RoutePlugin;
 use TCCP\ServiceContainer;
+use TCCP\Plugins\ViewPlugin;
+use TCCP\View\ViewRendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -13,27 +15,18 @@ $serviceContainer = new ServiceContainer();
 $app = new Application($serviceContainer);
 
 $app->plugin(new RoutePlugin());
+$app->plugin(new ViewPlugin());
 
-$app->get('/',function(RequestInterface $request){
-    var_dump($request->getUri());
-    die();
-
-    echo "Hello World --- Tarcisio Corte";
+$app->get('/', function(ServerRequestInterface $request) use($app){
+    $view = $app->service('view.renderer');
+    return $view->render('test.html.twig', ['name' => $request->getAttribute('name')]);
 });
 
 $app->get('/home/{name}/{id}', function(ServerRequestInterface $request){
     $response = new \Zend\Diactoros\Response();
     $response->getBody()->write("responser com emitter do diactoros");
     return $response;
-    
-    echo "Mostrando a Home !!";
-    echo "<br/>";
-    echo $request->getAttribute('name');
-    echo "<br/>";
-    echo $request->getAttribute('id');
-
 });
-
 
 $app->start();
 ?>

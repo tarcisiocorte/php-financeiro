@@ -8,6 +8,7 @@ use Aura\Router\RouterContainer;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use TCCP\ServiceContainerInterface;
+use TCCP\View\ViewRendererInterface;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RoutePlugin implements PluginInterface
