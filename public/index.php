@@ -33,16 +33,16 @@ $app
         return $view->render('category-costs/list.html.twig',[
             'categories' => $categories
         ]);
-    })
+    }, 'category-costs.list')
     ->get('/category-costs/new', function() use($app){
         $view = $app->service('view.renderer');
         return $view->render('category-costs/create.html.twig');
-    })
-    ->post('/category-costs/store', function(ServerRequestInterface $request){
+    }, 'category-costs.new')
+    ->post('/category-costs/store', function(ServerRequestInterface $request) use($app){
         $data = $request->getParsedBody();
         TCCP\Models\CategoryCost::create($data);
-        return new \Zend\Diactoros\Response\RedirectResponse('/category-costs');
-    });
+        return $app->route('category-costs.list');
+    }, 'category-costs.store');
 
 
 $app->start();
