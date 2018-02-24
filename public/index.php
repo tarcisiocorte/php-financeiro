@@ -17,7 +17,7 @@ $app = new Application($serviceContainer);
 $app->plugin(new RoutePlugin());
 $app->plugin(new ViewPlugin());
 
-$app->get('/', function(ServerRequestInterface $request) use($app){
+$app->get('/{name}', function(ServerRequestInterface $request) use($app){
     $view = $app->service('view.renderer');
     return $view->render('test.html.twig', ['name' => $request->getAttribute('name')]);
 });
