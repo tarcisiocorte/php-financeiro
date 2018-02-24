@@ -8,6 +8,7 @@ use TCCP\Plugins\DbPlugin;
 use TCCP\View\ViewRendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\RequestInterface;
+use TCCP\Models\CategoryCost;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -24,9 +25,13 @@ $app->get('/home/{name}/{id}', function(ServerRequestInterface $request){
     return $response;
 });
 
-$app->get('/category-costs', function()use($app){
+$app->get('/category-costs', function() use($app){
+    $meuModel = new CategoryCost();
+    $categories = $meuModel->all();
     $view = $app->service('view.renderer');
-    return $view->render('category-costs/list.html.twig');
+    return $view->render('category-costs/list.html.twig',[
+        'categories' => $categories
+    ]);
 });
 
 $app->start();
