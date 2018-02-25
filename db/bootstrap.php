@@ -1,5 +1,4 @@
 <?php
-
 use TCCP\Application;
 use TCCP\Plugins\AuthPlugin;
 use TCCP\Plugins\DbPlugin;
@@ -10,4 +9,5 @@ $app = new Application($serviceContainer);
 
 $app->plugin(new DbPlugin());
 $app->plugin(new AuthPlugin());
+
 return $app;

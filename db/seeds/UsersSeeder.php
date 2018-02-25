@@ -14,7 +14,7 @@ class UsersSeeder extends AbstractSeed
      */
     public function run()
     {
-        /** @var \SONFin\Application $app */
+        /** @var \TCCP\Application $app */
         $app = require __DIR__ . '/../bootstrap.php';
         $auth = $app->service('auth');
 

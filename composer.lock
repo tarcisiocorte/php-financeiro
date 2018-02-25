@@ -702,12 +702,12 @@
             "version": "v0.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cakephp/phinx.git",
+                "url": "https://github.com/robmorgan/phinx.git",
                 "reference": "4e058f2df00f58f654d7983f3943b327bf046c7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/4e058f2df00f58f654d7983f3943b327bf046c7c",
+                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/4e058f2df00f58f654d7983f3943b327bf046c7c",
                 "reference": "4e058f2df00f58f654d7983f3943b327bf046c7c",
                 "shasum": ""
             },

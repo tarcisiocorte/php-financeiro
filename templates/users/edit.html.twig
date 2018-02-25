@@ -10,7 +10,7 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-                    {% set action = route('users.update', {'id': user.id}) %}
+                    {% set action = route('users.update',{'id': user.id}) %}
                     {% set submitIcon = 'pencil' %}
                     {% include 'users/_form.html.twig' %}
                 </div>

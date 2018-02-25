@@ -1,8 +1,10 @@
 <?php
-
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace TCCP\Auth;
+
+
+use TCCP\Models\UserInterface;
 
 interface AuthInterface
 {
@@ -13,4 +15,7 @@ interface AuthInterface
     public function logout(): void;
 
     public function hashPassword(string $password): string;
+
+    // o retorno pode ser NULL
+    public function user(): ?UserInterface;
 }
