@@ -6,6 +6,7 @@ namespace TCCP\Plugins;
 
 use Interop\Container\ContainerInterface;
 use TCCP\Models\CategoryCost;
+use TCCP\Models\User;
 use TCCP\Repository\RepositoryFactory;
 use TCCP\ServiceContainerInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -24,6 +25,11 @@ class DbPlugin implements PluginInterface
         $container->addLazy('category-cost.repository', function(ContainerInterface $container){
             return $container->get('repository.factory')->factory(CategoryCost::class);
         });
+
+        $container->addLazy('user.repository', function(ContainerInterface $container){
+            return $container->get('repository.factory')->factory(User::class);
+        });
+
 
     }
 }
