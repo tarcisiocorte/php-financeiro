@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace SONFin\Repository;
+namespace TCCP\Repository;
 
 
 use Illuminate\Database\Eloquent\Model;

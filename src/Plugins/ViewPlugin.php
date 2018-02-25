@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace SONFin\Plugins;
+namespace TCCP\Plugins;
 
 
 use Interop\Container\ContainerInterface;
-use SONFin\ServiceContainerInterface;
-use SONFin\View\ViewRenderer;
+use TCCP\ServiceContainerInterface;
+use TCCP\View\ViewRenderer;
 
 class ViewPlugin implements PluginInterface
 {

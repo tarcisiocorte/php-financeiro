@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
-namespace SONFin;
+namespace TCCP;
 
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use SONFin\Plugins\PluginInterface;
+use TCCP\Plugins\PluginInterface;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\SapiEmitter;
 

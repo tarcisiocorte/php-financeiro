@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace SONFin\View;
+namespace TCCP\View;
 
 use Psr\Http\Message\ResponseInterface;
 
