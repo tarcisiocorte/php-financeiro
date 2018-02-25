@@ -41,32 +41,32 @@ interface CreationInterface
     /**
      * CreationInterface constructor.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface|null  $input
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
+     * @param InputInterface|null  $input
+     * @param OutputInterface|null $output
      */
     public function __construct(InputInterface $input = null, OutputInterface $output = null);
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param InputInterface $input
      *
-     * @return \Phinx\Migration\CreationInterface
+     * @return CreationInterface
      */
     public function setInput(InputInterface $input);
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
-     * @return \Phinx\Migration\CreationInterface
+     * @return CreationInterface
      */
     public function setOutput(OutputInterface $output);
 
     /**
-     * @return \Symfony\Component\Console\Input\InputInterface
+     * @return InputInterface
      */
     public function getInput();
 
     /**
-     * @return \Symfony\Component\Console\Output\OutputInterface
+     * @return OutputInterface
      */
     public function getOutput();
 

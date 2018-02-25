@@ -70,7 +70,7 @@ class ConsoleLoggerTest extends TestCase
         $logger = new ConsoleLogger($out, $addVerbosityLevelMap);
         $logger->log($logLevel, 'foo bar');
         $logs = $out->fetch();
-        $this->assertEquals($isOutput ? "[$logLevel] foo bar".PHP_EOL : '', $logs);
+        $this->assertEquals($isOutput ? "[$logLevel] foo bar\n" : '', $logs);
     }
 
     public function provideOutputMappingParams()
@@ -166,7 +166,9 @@ class ConsoleLoggerTest extends TestCase
         } else {
             $dummy = $this->getMock('Symfony\Component\Console\Tests\Logger\DummyTest', array('__toString'));
         }
-        $dummy->method('__toString')->will($this->returnValue('DUMMY'));
+        $dummy->expects($this->once())
+            ->method('__toString')
+            ->will($this->returnValue('DUMMY'));
 
         $this->getLogger()->warning($dummy);
 

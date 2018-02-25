@@ -69,12 +69,11 @@ class Index
      * Sets the index columns.
      *
      * @param array $columns
-     * @return \Phinx\Db\Table\Index
+     * @return Index
      */
     public function setColumns($columns)
     {
         $this->columns = $columns;
-
         return $this;
     }
 
@@ -92,12 +91,11 @@ class Index
      * Sets the index type.
      *
      * @param string $type
-     * @return \Phinx\Db\Table\Index
+     * @return Index
      */
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -115,12 +113,11 @@ class Index
      * Sets the index name.
      *
      * @param string $name
-     * @return \Phinx\Db\Table\Index
+     * @return Index
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -137,20 +134,19 @@ class Index
     /**
      * Sets the index limit.
      *
-     * @param int $limit
-     * @return \Phinx\Db\Table\Index
+     * @param integer $limit
+     * @return Index
      */
     public function setLimit($limit)
     {
         $this->limit = $limit;
-
         return $this;
     }
 
     /**
      * Gets the index limit.
      *
-     * @return int
+     * @return integer
      */
     public function getLimit()
     {
@@ -162,12 +158,12 @@ class Index
      *
      * @param array $options Options
      * @throws \RuntimeException
-     * @return \Phinx\Db\Table\Index
+     * @return Index
      */
     public function setOptions($options)
     {
         // Valid Options
-        $validOptions = ['type', 'unique', 'name', 'limit'];
+        $validOptions = array('type', 'unique', 'name', 'limit');
         foreach ($options as $option => $value) {
             if (!in_array($option, $validOptions, true)) {
                 throw new \RuntimeException(sprintf('"%s" is not a valid index option.', $option));
@@ -175,7 +171,7 @@ class Index
 
             // handle $options['unique']
             if (strcasecmp($option, self::UNIQUE) === 0) {
-                if ((bool)$value) {
+                if ((bool) $value) {
                     $this->setType(self::UNIQUE);
                 }
                 continue;
@@ -184,7 +180,6 @@ class Index
             $method = 'set' . ucfirst($option);
             $this->$method($value);
         }
-
         return $this;
     }
 }

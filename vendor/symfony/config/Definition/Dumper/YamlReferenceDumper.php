@@ -33,32 +33,6 @@ class YamlReferenceDumper
         return $this->dumpNode($configuration->getConfigTreeBuilder()->buildTree());
     }
 
-    public function dumpAtPath(ConfigurationInterface $configuration, $path)
-    {
-        $rootNode = $node = $configuration->getConfigTreeBuilder()->buildTree();
-
-        foreach (explode('.', $path) as $step) {
-            if (!$node instanceof ArrayNode) {
-                throw new \UnexpectedValueException(sprintf('Unable to find node at path "%s.%s"', $rootNode->getName(), $path));
-            }
-
-            /** @var NodeInterface[] $children */
-            $children = $node instanceof PrototypedArrayNode ? $this->getPrototypeChildren($node) : $node->getChildren();
-
-            foreach ($children as $child) {
-                if ($child->getName() === $step) {
-                    $node = $child;
-
-                    continue 2;
-                }
-            }
-
-            throw new \UnexpectedValueException(sprintf('Unable to find node at path "%s.%s"', $rootNode->getName(), $path));
-        }
-
-        return $this->dumpNode($node);
-    }
-
     public function dumpNode(NodeInterface $node)
     {
         $this->reference = '';
@@ -69,7 +43,12 @@ class YamlReferenceDumper
         return $ref;
     }
 
-    private function writeNode(NodeInterface $node, NodeInterface $parentNode = null, int $depth = 0, bool $prototypedArray = false)
+    /**
+     * @param NodeInterface $node
+     * @param int           $depth
+     * @param bool          $prototypedArray
+     */
+    private function writeNode(NodeInterface $node, $depth = 0, $prototypedArray = false)
     {
         $comments = array();
         $default = '';
@@ -118,17 +97,12 @@ class YamlReferenceDumper
             $comments[] = 'Required';
         }
 
-        // deprecated?
-        if ($node->isDeprecated()) {
-            $comments[] = sprintf('Deprecated (%s)', $node->getDeprecationMessage($node->getName(), $parentNode ? $parentNode->getPath() : $node->getPath()));
-        }
-
         // example
         if ($example && !is_array($example)) {
             $comments[] = 'Example: '.$example;
         }
 
-        $default = '' != (string) $default ? ' '.$default : '';
+        $default = (string) $default != '' ? ' '.$default : '';
         $comments = count($comments) ? '# '.implode(', ', $comments) : '';
 
         $key = $prototypedArray ? '-' : $node->getName().':';
@@ -166,15 +140,18 @@ class YamlReferenceDumper
 
         if ($children) {
             foreach ($children as $childNode) {
-                $this->writeNode($childNode, $node, $depth + 1, $node instanceof PrototypedArrayNode && !$node->getKeyAttribute());
+                $this->writeNode($childNode, $depth + 1, $node instanceof PrototypedArrayNode && !$node->getKeyAttribute());
             }
         }
     }
 
     /**
      * Outputs a single config reference line.
+     *
+     * @param string $text
+     * @param int    $indent
      */
-    private function writeLine(string $text, int $indent = 0)
+    private function writeLine($text, $indent = 0)
     {
         $indent = strlen($text) + $indent;
         $format = '%'.$indent.'s';
@@ -205,7 +182,12 @@ class YamlReferenceDumper
         }
     }
 
-    private function getPrototypeChildren(PrototypedArrayNode $node): array
+    /**
+     * @param PrototypedArrayNode $node
+     *
+     * @return array
+     */
+    private function getPrototypeChildren(PrototypedArrayNode $node)
     {
         $prototype = $node->getPrototype();
         $key = $node->getKeyAttribute();

@@ -1,12 +1,14 @@
 <?php
 declare(strict_types = 1);
-namespace TCCP;
+namespace SONFin;
 
-use TCCP\Plugins\PluginInterface;
+
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\SapiEmitter;
+use Psr\Http\Message\ServerRequestInterface;
+use SONFin\Plugins\PluginInterface;
 use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Diactoros\Response\SapiEmitter;
 
 class Application
 {
@@ -26,7 +28,8 @@ class Application
         return $this->serviceContainer->get($name);
     }
 
-    public function addService(string $name, $service):void{
+    public function addService(string $name, $service): void
+    {
         if (is_callable($service)) {
             $this->serviceContainer->addLazy($name, $service);
         } else {
@@ -34,11 +37,12 @@ class Application
         }
     }
 
-    public function plugin(PluginInterface $plugin):void{
+    public function plugin(PluginInterface $plugin): void
+    {
         $plugin->register($this->serviceContainer);
     }
 
-    public function get($path, $action, $name = null):Application{
+    public function get($path, $action, $name = null): Application{
         $routing = $this->service('routing');
         $routing->get($name, $path, $action);
         return $this;
@@ -54,28 +58,26 @@ class Application
         return new RedirectResponse($path);
     }
 
-    public function route(string $name, array $params = [])
-    {
+    public function route(string $name,array $params = []){
         $generator = $this->service('routing.generator');
-        $path = $generator->generate($name, $params);
+        $path = $generator->generate($name,$params);
         return $this->redirect($path);
     }
 
     public function start(){
         $route = $this->service('route');
-
+        /** @var ServerRequestInterface $request */
         $request = $this->service(RequestInterface::class);
-        /***IF THE ROUTE DOESN'T EXIST */
-        if(!$route)
-        {
+
+        if(!$route){
             echo "Page not found";
             exit;
         }
 
-        foreach($route->attributes as $key => $value){
-            $request =$request->withAttribute($key, $value);
+        foreach ($route->attributes as $key => $value){
+            $request = $request->withAttribute($key,$value);
         }
-    
+
         $callable = $route->handler;
         $response = $callable($request);
         $this->emitResponse($response);
@@ -84,6 +86,5 @@ class Application
     protected function emitResponse(ResponseInterface $response){
         $emitter = new SapiEmitter();
         $emitter->emit($response);
-    }    
+    }
 }
-?>

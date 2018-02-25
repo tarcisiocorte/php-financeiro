@@ -53,7 +53,6 @@ class Util
     public static function getCurrentTimestamp()
     {
         $dt = new \DateTime('now', new \DateTimeZone('UTC'));
-
         return $dt->format(static::DATE_FORMAT);
     }
 
@@ -64,7 +63,7 @@ class Util
      */
     public static function getExistingMigrationClassNames($path)
     {
-        $classNames = [];
+        $classNames = array();
 
         if (!is_dir($path)) {
             return $classNames;
@@ -90,9 +89,8 @@ class Util
      */
     public static function getVersionFromFileName($fileName)
     {
-        $matches = [];
+        $matches = array();
         preg_match('/^[0-9]+/', basename($fileName), $matches);
-
         return $matches[0];
     }
 
@@ -109,7 +107,6 @@ class Util
         $arr = preg_split('/(?=[A-Z])/', $className);
         unset($arr[0]); // remove the first element ('')
         $fileName = static::getCurrentTimestamp() . '_' . strtolower(implode($arr, '_')) . '.php';
-
         return $fileName;
     }
 
@@ -122,7 +119,7 @@ class Util
      */
     public static function mapFileNameToClassName($fileName)
     {
-        $matches = [];
+        $matches = array();
         if (preg_match(static::MIGRATION_FILE_NAME_PATTERN, $fileName, $matches)) {
             $fileName = $matches[1];
         }
@@ -143,12 +140,11 @@ class Util
      *
      * @param string $className Class Name
      * @param string $path Path
-     * @return bool
+     * @return boolean
      */
     public static function isUniqueMigrationClassName($className, $path)
     {
         $existingClassNames = static::getExistingMigrationClassNames($path);
-
         return !(in_array($className, $existingClassNames));
     }
 
@@ -161,23 +157,22 @@ class Util
      * Single words are not allowed on their own.
      *
      * @param string $className Class Name
-     * @return bool
+     * @return boolean
      */
     public static function isValidPhinxClassName($className)
     {
-        return (bool)preg_match('/^([A-Z][a-z0-9]+)+$/', $className);
+        return (bool) preg_match('/^([A-Z][a-z0-9]+)+$/', $className);
     }
 
     /**
      * Check if a migration file name is valid.
      *
      * @param string $fileName File Name
-     * @return bool
+     * @return boolean
      */
     public static function isValidMigrationFileName($fileName)
     {
-        $matches = [];
-
+        $matches = array();
         return preg_match(static::MIGRATION_FILE_NAME_PATTERN, $fileName, $matches);
     }
 
@@ -185,24 +180,23 @@ class Util
      * Check if a seed file name is valid.
      *
      * @param string $fileName File Name
-     * @return bool
+     * @return boolean
      */
     public static function isValidSeedFileName($fileName)
     {
-        $matches = [];
-
+        $matches = array();
         return preg_match(static::SEED_FILE_NAME_PATTERN, $fileName, $matches);
     }
 
     /**
      * Expands a set of paths with curly braces (if supported by the OS).
-     *
+     * 
      * @param array $paths
      * @return array
      */
     public static function globAll(array $paths)
     {
-        $result = [];
+        $result = array();
 
         foreach ($paths as $path) {
             $result = array_merge($result, static::glob($path));
@@ -214,7 +208,7 @@ class Util
     /**
      * Expands a path with curly braces (if supported by the OS).
      *
-     * @param string $path
+     * @param $path
      * @return array
      */
     public static function glob($path)

@@ -21,19 +21,16 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         array (
             'Xtreamwayz\\Pimple\\' => 18,
         ),
-        'T' => 
-        array (
-            'Twig\\' => 5,
-            'TCCP\\' => 5,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Filesystem\\' => 29,
+            'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
+            'SONFin\\' => 7,
         ),
         'P' => 
         array (
@@ -54,10 +51,6 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         array (
             'Faker\\' => 6,
         ),
-        'D' => 
-        array (
-            'Doctrine\\Common\\Inflector\\' => 26,
-        ),
         'C' => 
         array (
             'Carbon\\' => 7,
@@ -77,14 +70,6 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         array (
             0 => __DIR__ . '/..' . '/xtreamwayz/pimple-container-interop/src',
         ),
-        'Twig\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/twig/twig/src',
-        ),
-        'TCCP\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -101,6 +86,10 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
@@ -108,6 +97,10 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         'Symfony\\Component\\Config\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/config',
+        ),
+        'SONFin\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -149,10 +142,6 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -176,6 +165,13 @@ class ComposerStaticInit782059ef6c75a5eb0517f4035f2ef17c
             'Pimple' => 
             array (
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
         ),
     );

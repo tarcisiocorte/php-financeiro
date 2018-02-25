@@ -1,14 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace TCCP\Plugins;
+namespace SONFin\Plugins;
 
 
 use Aura\Router\RouterContainer;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
-use TCCP\ServiceContainerInterface;
-use TCCP\View\ViewRendererInterface;
+use SONFin\ServiceContainerInterface;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RoutePlugin implements PluginInterface
@@ -45,4 +44,3 @@ class RoutePlugin implements PluginInterface
         );
     }
 }
-?>

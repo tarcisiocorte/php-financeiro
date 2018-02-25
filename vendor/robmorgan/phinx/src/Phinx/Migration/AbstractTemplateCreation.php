@@ -34,20 +34,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class AbstractTemplateCreation implements CreationInterface
 {
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var InputInterface
      */
     protected $input;
 
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var OutputInterface
      */
     protected $output;
 
     /**
      * Class Constructor.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface|null  $input
-     * @param \Symfony\Component\Console\Output\OutputInterface|null $output
+     * @param InputInterface|null  $input
+     * @param OutputInterface|null $output
      */
     public function __construct(InputInterface $input = null, OutputInterface $output = null)
     {

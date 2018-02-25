@@ -52,8 +52,7 @@ class OutputFormatter implements OutputFormatterInterface
         if ('\\' === substr($text, -1)) {
             $len = strlen($text);
             $text = rtrim($text, '\\');
-            $text = str_replace("\0", '', $text);
-            $text .= str_repeat("\0", $len - strlen($text));
+            $text .= str_repeat('<<', $len - strlen($text));
         }
 
         return $text;
@@ -65,9 +64,9 @@ class OutputFormatter implements OutputFormatterInterface
      * @param bool                            $decorated Whether this formatter should actually decorate strings
      * @param OutputFormatterStyleInterface[] $styles    Array of "name => FormatterStyle" instances
      */
-    public function __construct(bool $decorated = false, array $styles = array())
+    public function __construct($decorated = false, array $styles = array())
     {
-        $this->decorated = $decorated;
+        $this->decorated = (bool) $decorated;
 
         $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
         $this->setStyle('info', new OutputFormatterStyle('green'));
@@ -82,7 +81,9 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the decorated flag.
+     *
+     * @param bool $decorated Whether to decorate the messages or not
      */
     public function setDecorated($decorated)
     {
@@ -90,7 +91,9 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the decorated flag.
+     *
+     * @return bool true if the output will decorate messages, false otherwise
      */
     public function isDecorated()
     {
@@ -98,7 +101,10 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets a new style.
+     *
+     * @param string                        $name  The style name
+     * @param OutputFormatterStyleInterface $style The style instance
      */
     public function setStyle($name, OutputFormatterStyleInterface $style)
     {
@@ -106,7 +112,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if output formatter has style with specified name.
+     *
+     * @param string $name
+     *
+     * @return bool
      */
     public function hasStyle($name)
     {
@@ -114,7 +124,13 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets style options from style with specified name.
+     *
+     * @param string $name
+     *
+     * @return OutputFormatterStyleInterface
+     *
+     * @throws InvalidArgumentException When style isn't defined
      */
     public function getStyle($name)
     {
@@ -126,7 +142,11 @@ class OutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Formats a message according to the given styles.
+     *
+     * @param string $message The message to style
+     *
+     * @return string The styled message
      */
     public function format($message)
     {
@@ -168,8 +188,8 @@ class OutputFormatter implements OutputFormatterInterface
 
         $output .= $this->applyCurrentStyle(substr($message, $offset));
 
-        if (false !== strpos($output, "\0")) {
-            return strtr($output, array("\0" => '\\', '\\<' => '<'));
+        if (false !== strpos($output, '<<')) {
+            return strtr($output, array('\\<' => '<', '<<' => '\\'));
         }
 
         return str_replace('\\<', '<', $output);
@@ -186,9 +206,11 @@ class OutputFormatter implements OutputFormatterInterface
     /**
      * Tries to create new style instance from string.
      *
-     * @return OutputFormatterStyle|false False if string is not format string
+     * @param string $string
+     *
+     * @return OutputFormatterStyle|false false if string is not format string
      */
-    private function createStyleFromString(string $string)
+    private function createStyleFromString($string)
     {
         if (isset($this->styles[$string])) {
             return $this->styles[$string];
@@ -210,7 +232,13 @@ class OutputFormatter implements OutputFormatterInterface
                 preg_match_all('([^,;]+)', $match[1], $options);
                 $options = array_shift($options);
                 foreach ($options as $option) {
-                    $style->setOption($option);
+                    try {
+                        $style->setOption($option);
+                    } catch (\InvalidArgumentException $e) {
+                        @trigger_error(sprintf('Unknown style options are deprecated since version 3.2 and will be removed in 4.0. Exception "%s".', $e->getMessage()), E_USER_DEPRECATED);
+
+                        return false;
+                    }
                 }
             } else {
                 return false;
@@ -222,8 +250,12 @@ class OutputFormatter implements OutputFormatterInterface
 
     /**
      * Applies current style from stack to text, if must be applied.
+     *
+     * @param string $text Input text
+     *
+     * @return string Styled text
      */
-    private function applyCurrentStyle(string $text): string
+    private function applyCurrentStyle($text)
     {
         return $this->isDecorated() && strlen($text) > 0 ? $this->styleStack->getCurrent()->apply($text) : $text;
     }

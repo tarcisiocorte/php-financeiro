@@ -36,24 +36,12 @@ use Symfony\Component\Yaml\Yaml;
  * @package Phinx
  * @author Rob Morgan
  */
-class Config implements ConfigInterface, NamespaceAwareInterface
+class Config implements ConfigInterface
 {
-    use NamespaceAwareTrait;
-
-    /**
-     * The value that identifies a version order by creation time.
-     */
-    const VERSION_ORDER_CREATION_TIME = 'creation';
-
-    /**
-     * The value that identifies a version order by execution time.
-     */
-    const VERSION_ORDER_EXECUTION_TIME = 'execution';
-
     /**
      * @var array
      */
-    private $values = [];
+    private $values = array();
 
     /**
      * @var string
@@ -74,7 +62,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      *
      * @param  string $configFilePath Path to the Yaml File
      * @throws \RuntimeException
-     * @return \Phinx\Config\Config
+     * @return Config
      */
     public static function fromYaml($configFilePath)
     {
@@ -87,7 +75,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
                 $configFilePath
             ));
         }
-
         return new static($configArray, $configFilePath);
     }
 
@@ -96,7 +83,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      *
      * @param  string $configFilePath Path to the JSON File
      * @throws \RuntimeException
-     * @return \Phinx\Config\Config
+     * @return Config
      */
     public static function fromJson($configFilePath)
     {
@@ -107,7 +94,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
                 $configFilePath
             ));
         }
-
         return new static($configArray, $configFilePath);
     }
 
@@ -116,7 +102,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      *
      * @param  string $configFilePath Path to the PHP File
      * @throws \RuntimeException
-     * @return \Phinx\Config\Config
+     * @return Config
      */
     public static function fromPhp($configFilePath)
     {
@@ -143,7 +129,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     public function getEnvironments()
     {
         if (isset($this->values) && isset($this->values['environments'])) {
-            $environments = [];
+            $environments = array();
             foreach ($this->values['environments'] as $key => $value) {
                 if (is_array($value)) {
                     $environments[$key] = $value;
@@ -180,7 +166,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      */
     public function hasEnvironment($name)
     {
-        return ($this->getEnvironment($name) !== null);
+        return (null !== $this->getEnvironment($name));
     }
 
     /**
@@ -217,7 +203,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
         // else default to the first available one
         if (is_array($this->getEnvironments()) && count($this->getEnvironments()) > 0) {
             $names = array_keys($this->getEnvironments());
-
             return $names[0];
         }
 
@@ -227,8 +212,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function getAlias($alias)
-    {
+    public function getAlias($alias){
         return !empty($this->values['aliases'][$alias]) ? $this->values['aliases'][$alias] : null;
     }
 
@@ -250,7 +234,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
         }
 
         if (is_string($this->values['paths']['migrations'])) {
-            $this->values['paths']['migrations'] = [$this->values['paths']['migrations']];
+            $this->values['paths']['migrations'] = array($this->values['paths']['migrations']);
         }
 
         return $this->values['paths']['migrations'];
@@ -259,7 +243,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     /**
      * Gets the base class name for migrations.
      *
-     * @param bool $dropNamespace Return the base migration class name without the namespace.
+     * @param boolean $dropNamespace Return the base migration class name without the namespace.
      * @return string
      */
     public function getMigrationBaseClassName($dropNamespace = true)
@@ -279,7 +263,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
         }
 
         if (is_string($this->values['paths']['seeds'])) {
-            $this->values['paths']['seeds'] = [$this->values['paths']['seeds']];
+            $this->values['paths']['seeds'] = array($this->values['paths']['seeds']);
         }
 
         return $this->values['paths']['seeds'];
@@ -290,54 +274,28 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      *
      * @return string|false
      */
-    public function getTemplateFile()
-    {
+     public function getTemplateFile()
+     {
         if (!isset($this->values['templates']['file'])) {
             return false;
         }
 
         return $this->values['templates']['file'];
-    }
+     }
 
     /**
      * Get the template class name.
      *
      * @return string|false
      */
-    public function getTemplateClass()
-    {
+     public function getTemplateClass()
+     {
         if (!isset($this->values['templates']['class'])) {
             return false;
         }
 
         return $this->values['templates']['class'];
-    }
-
-    /**
-     * Get the version order.
-     *
-     * @return string
-     */
-    public function getVersionOrder()
-    {
-        if (!isset($this->values['version_order'])) {
-            return self::VERSION_ORDER_CREATION_TIME;
-        }
-
-        return $this->values['version_order'];
-    }
-
-    /**
-     * Is version order creation time?
-     *
-     * @return bool
-     */
-    public function isVersionOrderCreationTime()
-    {
-        $versionOrder = $this->getVersionOrder();
-
-        return $versionOrder == self::VERSION_ORDER_CREATION_TIME;
-    }
+     }
 
     /**
      * Replace tokens in the specified array.
@@ -349,7 +307,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
     {
         // Get environment variables
         // $_ENV is empty because variables_order does not include it normally
-        $tokens = [];
+        $tokens = array();
         foreach ($_SERVER as $varname => $varvalue) {
             if (0 === strpos($varname, 'PHINX_')) {
                 $tokens['%%' . $varname . '%%'] = $varvalue;
@@ -373,7 +331,7 @@ class Config implements ConfigInterface, NamespaceAwareInterface
      */
     protected function recurseArrayForTokens($arr, $tokens)
     {
-        $out = [];
+        $out = array();
         foreach ($arr as $name => $value) {
             if (is_array($value)) {
                 $out[$name] = $this->recurseArrayForTokens($value, $tokens);
@@ -388,7 +346,6 @@ class Config implements ConfigInterface, NamespaceAwareInterface
             }
             $out[$name] = $value;
         }
-
         return $out;
     }
 

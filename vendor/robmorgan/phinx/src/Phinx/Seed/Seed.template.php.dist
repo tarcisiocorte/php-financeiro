@@ -1,5 +1,4 @@
 <?php
-$namespaceDefinition
 
 use $useClassName;
 

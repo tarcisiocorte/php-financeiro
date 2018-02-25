@@ -40,6 +40,10 @@ class SymfonyStyle extends OutputStyle
     private $lineLength;
     private $bufferedOutput;
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     public function __construct(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -59,14 +63,13 @@ class SymfonyStyle extends OutputStyle
      * @param string|null  $style    The style to apply to the whole block
      * @param string       $prefix   The prefix for the block
      * @param bool         $padding  Whether to add vertical padding
-     * @param bool         $escape   Whether to escape the message
      */
-    public function block($messages, $type = null, $style = null, $prefix = ' ', $padding = false, $escape = true)
+    public function block($messages, $type = null, $style = null, $prefix = ' ', $padding = false)
     {
         $messages = is_array($messages) ? array_values($messages) : array($messages);
 
         $this->autoPrependBlock();
-        $this->writeln($this->createBlock($messages, $type, $style, $prefix, $padding, $escape));
+        $this->writeln($this->createBlock($messages, $type, $style, $prefix, $padding, true));
         $this->newLine();
     }
 
@@ -130,7 +133,11 @@ class SymfonyStyle extends OutputStyle
      */
     public function comment($message)
     {
-        $this->block($message, null, null, '<fg=default;bg=default> // </>', false, false);
+        $messages = is_array($message) ? array_values($message) : array($message);
+
+        $this->autoPrependBlock();
+        $this->writeln($this->createBlock($messages, null, null, '<fg=default;bg=default> // </>'));
+        $this->newLine();
     }
 
     /**
@@ -279,7 +286,9 @@ class SymfonyStyle extends OutputStyle
     }
 
     /**
-     * @return mixed
+     * @param Question $question
+     *
+     * @return string
      */
     public function askQuestion(Question $question)
     {
@@ -329,16 +338,9 @@ class SymfonyStyle extends OutputStyle
     }
 
     /**
-     * Returns a new instance which makes use of stderr if available.
-     *
-     * @return self
+     * @return ProgressBar
      */
-    public function getErrorStyle()
-    {
-        return new self($this->input, $this->getErrorOutput());
-    }
-
-    private function getProgressBar(): ProgressBar
+    private function getProgressBar()
     {
         if (!$this->progressBar) {
             throw new RuntimeException('The ProgressBar is not started.');
@@ -347,20 +349,18 @@ class SymfonyStyle extends OutputStyle
         return $this->progressBar;
     }
 
-    private function autoPrependBlock(): void
+    private function autoPrependBlock()
     {
         $chars = substr(str_replace(PHP_EOL, "\n", $this->bufferedOutput->fetch()), -2);
 
         if (!isset($chars[0])) {
-            $this->newLine(); //empty history, so we should start with a new line.
-
-            return;
+            return $this->newLine(); //empty history, so we should start with a new line.
         }
         //Prepend new line for each non LF chars (This means no blank line was output before)
         $this->newLine(2 - substr_count($chars, "\n"));
     }
 
-    private function autoPrependText(): void
+    private function autoPrependText()
     {
         $fetched = $this->bufferedOutput->fetch();
         //Prepend new line if last char isn't EOL:
@@ -369,7 +369,7 @@ class SymfonyStyle extends OutputStyle
         }
     }
 
-    private function reduceBuffer($messages): array
+    private function reduceBuffer($messages)
     {
         // We need to know if the two last chars are PHP_EOL
         // Preserve the last 4 chars inserted (PHP_EOL on windows is two chars) in the history buffer
@@ -378,7 +378,7 @@ class SymfonyStyle extends OutputStyle
         }, array_merge(array($this->bufferedOutput->fetch()), (array) $messages));
     }
 
-    private function createBlock(iterable $messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = false)
+    private function createBlock($messages, $type = null, $style = null, $prefix = ' ', $padding = false, $escape = false)
     {
         $indentLength = 0;
         $prefixLength = Helper::strlenWithoutDecoration($this->getFormatter(), $prefix);

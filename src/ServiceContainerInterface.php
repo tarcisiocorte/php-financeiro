@@ -1,6 +1,7 @@
 <?php
 declare(strict_types = 1);
-namespace TCCP;
+namespace SONFin;
+
 
 interface ServiceContainerInterface
 {
@@ -12,4 +13,3 @@ interface ServiceContainerInterface
 
     public function has(string $name);
 }
-?>

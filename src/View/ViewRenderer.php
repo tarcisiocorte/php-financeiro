@@ -1,7 +1,8 @@
 <?php
-namespace TCCP\View;
 
-use TCCP\View\ViewRendererInterface;
+namespace SONFin\View;
+
+
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 
@@ -11,6 +12,7 @@ class ViewRenderer implements ViewRendererInterface
      * @var \Twig_Environment
      */
     private $twigEnviroment;
+
 
     /**
      * ViewRenderer constructor.
@@ -28,4 +30,3 @@ class ViewRenderer implements ViewRendererInterface
         return $response;
     }
 }
-?>

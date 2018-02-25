@@ -22,6 +22,7 @@ class TreeBuilder implements NodeParentInterface
 {
     protected $tree;
     protected $root;
+    protected $builder;
 
     /**
      * Creates the root node.

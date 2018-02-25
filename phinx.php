@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
+
 $db = include __DIR__ . '/config/db.php';
 list(
     'driver' => $adapter,
@@ -21,7 +22,7 @@ return [
         ]
     ],
     'environments' => [
-        'default_migration_table' => 'tbl_migrations',
+        'default_migration_table' => 'migrations',
         'default_database' => 'development',
         'development' => [
             'adapter' => $adapter,

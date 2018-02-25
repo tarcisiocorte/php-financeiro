@@ -60,7 +60,7 @@ interface ConfigInterface extends \ArrayAccess
      * Does the specified environment exist in the configuration file?
      *
      * @param string $name Environment Name
-     * @return bool
+     * @return boolean
      */
     public function hasEnvironment($name);
 
@@ -102,14 +102,14 @@ interface ConfigInterface extends \ArrayAccess
      */
     public function getSeedPaths();
 
-    /**
+     /**
      * Get the template file name.
      *
      * @return string|false
      */
-    public function getTemplateFile();
+     public function getTemplateFile();
 
-    /**
+     /**
      * Get the template class name.
      *
      * @return string|false
@@ -117,23 +117,9 @@ interface ConfigInterface extends \ArrayAccess
     public function getTemplateClass();
 
     /**
-     * Get the version order.
-     *
-     * @return string
-     */
-    public function getVersionOrder();
-
-    /**
-     * Is version order creation time?
-     *
-     * @return bool
-     */
-    public function isVersionOrderCreationTime();
-
-    /**
      * Gets the base class name for migrations.
      *
-     * @param bool $dropNamespace Return the base migration class name without the namespace.
+     * @param boolean $dropNamespace Return the base migration class name without the namespace.
      * @return string
      */
     public function getMigrationBaseClassName($dropNamespace = true);

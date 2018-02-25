@@ -28,16 +28,16 @@
  */
 namespace Phinx\Console\Command;
 
-use Phinx\Config\Config;
-use Phinx\Config\ConfigInterface;
-use Phinx\Db\Adapter\AdapterInterface;
-use Phinx\Migration\Manager;
 use Phinx\Util\Util;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Phinx\Config\Config;
+use Phinx\Config\ConfigInterface;
+use Phinx\Migration\Manager;
+use Phinx\Db\Adapter\AdapterInterface;
 
 /**
  * Abstract command, contains bootstrapping info
@@ -57,17 +57,17 @@ abstract class AbstractCommand extends Command
     const DEFAULT_SEED_TEMPLATE = '/../../Seed/Seed.template.php.dist';
 
     /**
-     * @var \Phinx\Config\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
     /**
-     * @var \Phinx\Db\Adapter\AdapterInterface
+     * @var AdapterInterface
      */
     protected $adapter;
 
     /**
-     * @var \Phinx\Migration\Manager
+     * @var Manager
      */
     protected $manager;
 
@@ -83,8 +83,8 @@ abstract class AbstractCommand extends Command
     /**
      * Bootstrap Phinx.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return void
      */
     public function bootstrap(InputInterface $input, OutputInterface $output)
@@ -120,20 +120,19 @@ abstract class AbstractCommand extends Command
     /**
      * Sets the config.
      *
-     * @param  \Phinx\Config\ConfigInterface $config
-     * @return \Phinx\Console\Command\AbstractCommand
+     * @param  ConfigInterface $config
+     * @return AbstractCommand
      */
     public function setConfig(ConfigInterface $config)
     {
         $this->config = $config;
-
         return $this;
     }
 
     /**
      * Gets the config.
      *
-     * @return \Phinx\Config\ConfigInterface
+     * @return ConfigInterface
      */
     public function getConfig()
     {
@@ -143,20 +142,19 @@ abstract class AbstractCommand extends Command
     /**
      * Sets the database adapter.
      *
-     * @param \Phinx\Db\Adapter\AdapterInterface $adapter
-     * @return \Phinx\Console\Command\AbstractCommand
+     * @param AdapterInterface $adapter
+     * @return AbstractCommand
      */
     public function setAdapter(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
-
         return $this;
     }
 
     /**
      * Gets the database adapter.
      *
-     * @return \Phinx\Db\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     public function getAdapter()
     {
@@ -166,20 +164,19 @@ abstract class AbstractCommand extends Command
     /**
      * Sets the migration manager.
      *
-     * @param \Phinx\Migration\Manager $manager
-     * @return \Phinx\Console\Command\AbstractCommand
+     * @param Manager $manager
+     * @return AbstractCommand
      */
     public function setManager(Manager $manager)
     {
         $this->manager = $manager;
-
         return $this;
     }
 
     /**
      * Gets the migration manager.
      *
-     * @return \Phinx\Migration\Manager
+     * @return Manager
      */
     public function getManager()
     {
@@ -189,7 +186,7 @@ abstract class AbstractCommand extends Command
     /**
      * Returns config file path
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param InputInterface $input
      * @return string
      */
     protected function locateConfigFile(InputInterface $input)
@@ -198,7 +195,7 @@ abstract class AbstractCommand extends Command
 
         $useDefault = false;
 
-        if ($configFile === null || $configFile === false) {
+        if (null === $configFile || false === $configFile) {
             $useDefault = true;
         }
 
@@ -206,16 +203,16 @@ abstract class AbstractCommand extends Command
 
         // locate the phinx config file (default: phinx.yml)
         // TODO - In future walk the tree in reverse (max 10 levels)
-        $locator = new FileLocator([
+        $locator = new FileLocator(array(
             $cwd . DIRECTORY_SEPARATOR
-        ]);
+        ));
 
         if (!$useDefault) {
             // Locate() throws an exception if the file does not exist
             return $locator->locate($configFile, $cwd, $first = true);
         }
 
-        $possibleConfigFiles = ['phinx.php', 'phinx.json', 'phinx.yml'];
+        $possibleConfigFiles = array('phinx.php', 'phinx.json', 'phinx.yml');
         foreach ($possibleConfigFiles as $configFile) {
             try {
                 return $locator->locate($configFile, $cwd, $first = true);
@@ -229,8 +226,8 @@ abstract class AbstractCommand extends Command
     /**
      * Parse the config file and load it into the config object
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @throws \InvalidArgumentException
      * @return void
      */
@@ -242,7 +239,7 @@ abstract class AbstractCommand extends Command
         $parser = $input->getOption('parser');
 
         // If no parser is specified try to determine the correct one from the file extension.  Defaults to YAML
-        if ($parser === null) {
+        if (null === $parser) {
             $extension = pathinfo($configFilePath, PATHINFO_EXTENSION);
 
             switch (strtolower($extension)) {
@@ -280,18 +277,14 @@ abstract class AbstractCommand extends Command
     /**
      * Load the migrations manager and inject the config
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
     protected function loadManager(InputInterface $input, OutputInterface $output)
     {
-        if ($this->getManager() === null) {
+        if (null === $this->getManager()) {
             $manager = new Manager($this->getConfig(), $input, $output);
             $this->setManager($manager);
-        } else {
-            $manager = $this->getManager();
-            $manager->setInput($input);
-            $manager->setOutput($output);
         }
     }
 

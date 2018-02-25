@@ -29,6 +29,7 @@
 namespace Phinx\Migration;
 
 use Phinx\Db\Adapter\AdapterInterface;
+use Phinx\Db\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -71,45 +72,45 @@ interface MigrationInterface
     /**
      * Sets the database adapter.
      *
-     * @param \Phinx\Db\Adapter\AdapterInterface $adapter Database Adapter
-     * @return \Phinx\Migration\MigrationInterface
+     * @param AdapterInterface $adapter Database Adapter
+     * @return MigrationInterface
      */
     public function setAdapter(AdapterInterface $adapter);
 
     /**
      * Gets the database adapter.
      *
-     * @return \Phinx\Db\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     public function getAdapter();
 
     /**
      * Sets the input object to be used in migration object
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @return \Phinx\Migration\MigrationInterface
+     * @param InputInterface $input
+     * @return MigrationInterface
      */
     public function setInput(InputInterface $input);
 
     /**
      * Gets the input object to be used in migration object
      *
-     * @return \Symfony\Component\Console\Input\InputInterface
+     * @return InputInterface
      */
     public function getInput();
 
     /**
      * Sets the output object to be used in migration object
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @return \Phinx\Migration\MigrationInterface
+     * @param OutputInterface $output
+     * @return MigrationInterface
      */
     public function setOutput(OutputInterface $output);
 
     /**
      * Gets the output object to be used in migration object
      *
-     * @return \Symfony\Component\Console\Output\OutputInterface
+     * @return OutputInterface
      */
     public function getOutput();
 
@@ -124,7 +125,7 @@ interface MigrationInterface
      * Sets the migration version number.
      *
      * @param float $version Version
-     * @return \Phinx\Migration\MigrationInterface
+     * @return MigrationInterface
      */
     public function setVersion($version);
 
@@ -134,22 +135,6 @@ interface MigrationInterface
      * @return float
      */
     public function getVersion();
-
-    /**
-     * Sets whether this migration is being applied or reverted
-     *
-     * @param bool $isMigratingUp True if the migration is being applied
-     * @return \Phinx\Migration\MigrationInterface
-     */
-    public function setMigratingUp($isMigratingUp);
-
-    /**
-     * Gets whether this migration is being applied or reverted.
-     * True means that the migration is being applied.
-     *
-     * @return bool
-     */
-    public function isMigratingUp();
 
     /**
      * Executes a SQL statement and returns the number of affected rows.
@@ -213,7 +198,7 @@ interface MigrationInterface
      * Checks to see if a table exists.
      *
      * @param string $tableName Table Name
-     * @return bool
+     * @return boolean
      */
     public function hasTable($tableName);
 
@@ -224,7 +209,7 @@ interface MigrationInterface
      *
      * @param string $tableName Table Name
      * @param array $options Options
-     * @return \Phinx\Db\Table
+     * @return Table
      */
     public function table($tableName, $options);
 }

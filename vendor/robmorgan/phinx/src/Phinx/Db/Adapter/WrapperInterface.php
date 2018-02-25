@@ -38,15 +38,15 @@ interface WrapperInterface
     /**
      * Class constructor, must always wrap another adapter.
      *
-     * @param  \Phinx\Db\Adapter\AdapterInterface $adapter
+     * @param  AdapterInterface $adapter
      */
     public function __construct(AdapterInterface $adapter);
 
     /**
      * Sets the database adapter to proxy commands to.
      *
-     * @param  \Phinx\Db\Adapter\AdapterInterface $adapter
-     * @return \Phinx\Db\Adapter\AdapterInterface
+     * @param  AdapterInterface $adapter
+     * @return AdapterInterface
      */
     public function setAdapter(AdapterInterface $adapter);
 
@@ -54,7 +54,7 @@ interface WrapperInterface
      * Gets the database adapter.
      *
      * @throws \RuntimeException if the adapter has not been set
-     * @return \Phinx\Db\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     public function getAdapter();
 }
