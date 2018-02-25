@@ -1,11 +1,12 @@
 <?php
 
-use Psr\Http\Message\ServerRequestInterface;
 use TCCP\Application;
-use TCCP\Plugins\DbPlugin;
-use TCCP\Plugins\RoutePlugin;
-use TCCP\Plugins\ViewPlugin;
 use TCCP\ServiceContainer;
+use TCCP\Plugins\ViewPlugin;
+use TCCP\Plugins\AuthPlugin;
+use TCCP\Plugins\RoutePlugin;
+use TCCP\Plugins\DbPlugin;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -15,6 +16,7 @@ $app = new Application($serviceContainer);
 $app->plugin(new RoutePlugin());
 $app->plugin(new ViewPlugin());
 $app->plugin(new DbPlugin());
+$app->plugin(new AuthPlugin());
 
 $app->get('/home/{name}/{id}', function (ServerRequestInterface $request) {
     $response = new \Zend\Diactoros\Response();
@@ -24,5 +26,6 @@ $app->get('/home/{name}/{id}', function (ServerRequestInterface $request) {
 
 require_once __DIR__ . '/../src/controllers/category-costs.php';
 require_once __DIR__ . '/../src/controllers/users.php';
+require_once __DIR__ . '/../src/controllers/auth.php';
 
 $app->start();
