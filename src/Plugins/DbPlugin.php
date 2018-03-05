@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace TCCP\Plugins;
 
 
-use Interop\Container\ContainerInterface;
+use TCCP\Models\User;
 use TCCP\Models\BillPay;
 use TCCP\Models\BillReceive;
 use TCCP\Models\CategoryCost;
-use TCCP\Models\User;
-use TCCP\Repository\RepositoryFactory;
 use TCCP\ServiceContainerInterface;
+use TCCP\Repository\RepositoryFactory;
 use TCCP\Repository\StatementRepository;
+use Interop\Container\ContainerInterface;
+use TCCP\Repository\CategoryCostRepository;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DbPlugin implements PluginInterface
@@ -25,8 +26,8 @@ class DbPlugin implements PluginInterface
         $capsule->bootEloquent();
 
         $container->add('repository.factory', new RepositoryFactory());
-        $container->addLazy('category-cost.repository', function (ContainerInterface $container) {
-            return $container->get('repository.factory')->factory(CategoryCost::class);
+        $container->addLazy('category-cost.repository', function () {
+            return new CategoryCostRepository();
         });
 
         $container->addLazy('bill-receive.repository', function (ContainerInterface $container) {
