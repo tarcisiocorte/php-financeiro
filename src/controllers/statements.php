@@ -1,9 +1,9 @@
 <?php
-
 use Psr\Http\Message\ServerRequestInterface;
 
+
 $app
-    ->get('/statements', function(ServerRequestInterface $request) use($app){
+    ->get('/statements', function (ServerRequestInterface $request) use ($app) {
         $view = $app->service('view.renderer');
         $repository = $app->service('statement.repository');
         $auth = $app->service('auth');
@@ -17,9 +17,9 @@ $app
         $dateEnd = $dateEnd instanceof \DateTime ? $dateEnd->format('Y-m-d')
             : \DateTime::createFromFormat('d/m/Y', $dateEnd)->format('Y-m-d');
 
-        $statements = $repository->all($dateStart, $dateEnd, $auth->user()->getId());
+        $statements = $repository->all($dateStart,$dateEnd,$auth->user()->getId());
 
         return $view->render('statements.html.twig', [
             'statements' => $statements
         ]);
-    }, 'statements.list');
+    },'statements.list');

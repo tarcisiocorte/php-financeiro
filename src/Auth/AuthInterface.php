@@ -16,6 +16,5 @@ interface AuthInterface
 
     public function hashPassword(string $password): string;
 
-    // o retorno pode ser NULL
     public function user(): ?UserInterface;
 }

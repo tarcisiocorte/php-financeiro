@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace TCCP\Plugins;
 
 
-use TCCP\Models\User;
+use Interop\Container\ContainerInterface;
 use TCCP\Models\BillPay;
 use TCCP\Models\BillReceive;
 use TCCP\Models\CategoryCost;
-use TCCP\ServiceContainerInterface;
+use TCCP\Models\User;
+use TCCP\Repository\CategoryCostRepository;
 use TCCP\Repository\RepositoryFactory;
 use TCCP\Repository\StatementRepository;
-use Interop\Container\ContainerInterface;
-use TCCP\Repository\CategoryCostRepository;
+use TCCP\ServiceContainerInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DbPlugin implements PluginInterface
@@ -22,7 +22,7 @@ class DbPlugin implements PluginInterface
     {
         $capsule = new Capsule();
         $config = include __DIR__ . '/../../config/db.php';
-        $capsule->addConnection($config['development']);
+        $capsule->addConnection($config['default_connection']);
         $capsule->bootEloquent();
 
         $container->add('repository.factory', new RepositoryFactory());

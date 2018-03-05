@@ -1,14 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
 namespace TCCP\Repository;
 
+use Illuminate\Support\Collection;
+use TCCP\Models\BillPay;
+use TCCP\Models\BillReceive;
 use TCCP\Models\CategoryCost;
-use TCCP\Repository\CategoryCostRepositoryInterface;
 
 class CategoryCostRepository extends DefaultRepository implements CategoryCostRepositoryInterface
 {
+
+
     /**
      * CategoryCostRepository constructor.
      */
@@ -22,7 +25,9 @@ class CategoryCostRepository extends DefaultRepository implements CategoryCostRe
         $categories = CategoryCost::query()
             ->selectRaw('category_costs.name, sum(value) as value')
             ->leftJoin('bill_pays', 'bill_pays.category_cost_id', '=', 'category_costs.id')
-            ->where('category_costs.user_id', $userId)
+            ->whereBetween('date_launch', [$dateStart, $dateEnd])
+            ->where('category_costs.user_id',$userId)
+            ->whereNotNull('bill_pays.category_cost_id')
             ->groupBy('value')
             ->groupBy('category_costs.name')
             ->get();

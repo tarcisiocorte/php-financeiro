@@ -1,10 +1,9 @@
 <?php
-
 use Psr\Http\Message\ServerRequestInterface;
 
+
 $app
-    ->get(
-        '/charts', function (ServerRequestInterface $request) use ($app) {
+    ->get('/charts', function (ServerRequestInterface $request) use ($app) {
         $view = $app->service('view.renderer');
         $repository = $app->service('category-cost.repository');
         $auth = $app->service('auth');
@@ -18,11 +17,9 @@ $app
         $dateEnd = $dateEnd instanceof \DateTime ? $dateEnd->format('Y-m-d')
             : \DateTime::createFromFormat('d/m/Y', $dateEnd)->format('Y-m-d');
 
-        $categories = $repository->sumByPeriod($dateStart, $dateEnd, $auth->user()->getId());
+        $categories = $repository->sumByPeriod($dateStart,$dateEnd,$auth->user()->getId());
 
-        return $view->render(
-            'charts.html.twig', [
-                'categories' => $categories
-            ]
-        );
-    }, 'charts.list');
+        return $view->render('charts.html.twig', [
+            'categories' => $categories
+        ]);
+    },'charts.list');
