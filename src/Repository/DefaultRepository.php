@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace TCCP\Repository;
+namespace SONFin\Repository;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -57,7 +57,7 @@ class DefaultRepository implements RepositoryInterface
 
     protected function findInternal($id)
     {
-        return is_array($id) ? $model = $this->findOneBy($id) : $this->find($id);
+        return is_array($id) ? $model = $this->findOneBy($id) : $this->find((int)$id);
     }
 
     public function find(int $id, bool $failIfNotExist = true)

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace TCCP\Repository;
+namespace SONFin\Repository;
 
 use Illuminate\Support\Collection;
-use TCCP\Models\BillPay;
-use TCCP\Models\BillReceive;
+use SONFin\Models\BillPay;
+use SONFin\Models\BillReceive;
 
 class StatementRepository implements StatementRepositoryInterface
 {

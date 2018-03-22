@@ -1,12 +1,12 @@
 <?php
 
 use Psr\Http\Message\ServerRequestInterface;
-use TCCP\Application;
-use TCCP\Plugins\AuthPlugin;
-use TCCP\Plugins\DbPlugin;
-use TCCP\Plugins\RoutePlugin;
-use TCCP\Plugins\ViewPlugin;
-use TCCP\ServiceContainer;
+use SONFin\Application;
+use SONFin\Plugins\AuthPlugin;
+use SONFin\Plugins\DbPlugin;
+use SONFin\Plugins\RoutePlugin;
+use SONFin\Plugins\ViewPlugin;
+use SONFin\ServiceContainer;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace TCCP\Auth;
+namespace SONFin\Auth;
 
 
 use Jasny\Auth\Sessions;
 use Jasny\Auth\User;
-use TCCP\Repository\RepositoryInterface;
+use SONFin\Repository\RepositoryInterface;
 
 class JasnyAuth extends \Jasny\Auth
 {
@@ -44,6 +44,13 @@ class JasnyAuth extends \Jasny\Auth
      */
     public function fetchUserByUsername($username)
     {
-        return $this->repository->findByField('email', $username)[0];
+        $result = $this->repository->findByField('email', $username);
+        return count($result)? $result[0] : null;
+        //return $this->repository->findByField('email', $username)[0];
+    }
+
+    public function verifyCredentials($user, $password)
+    {
+        return isset($user) && password_verify($password, $user->getHashedPassword());
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace TCCP\Plugins;
+namespace SONFin\Plugins;
 
 
-use TCCP\ServiceContainerInterface;
+use SONFin\ServiceContainerInterface;
 
 interface PluginInterface
 {

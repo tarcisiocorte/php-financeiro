@@ -1,9 +1,9 @@
 <?php
 
-namespace TCCP\Auth;
+namespace SONFin\Auth;
 
 
-use TCCP\Models\UserInterface;
+use SONFin\Models\UserInterface;
 
 class Auth implements AuthInterface
 {

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace TCCP\Auth;
+namespace SONFin\Auth;
 
 
-use TCCP\Models\UserInterface;
+use SONFin\Models\UserInterface;
 
 interface AuthInterface
 {

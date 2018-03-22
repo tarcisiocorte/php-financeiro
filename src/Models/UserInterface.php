@@ -1,6 +1,6 @@
 <?php
 
-namespace TCCP\Models;
+namespace SONFin\Models;
 
 
 interface UserInterface

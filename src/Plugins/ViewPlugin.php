@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace TCCP\Plugins;
+namespace SONFin\Plugins;
 
 
 use Interop\Container\ContainerInterface;
-use TCCP\ServiceContainerInterface;
-use TCCP\View\Twig\TwigGlobals;
-use TCCP\View\ViewRenderer;
+use SONFin\ServiceContainerInterface;
+use SONFin\View\Twig\TwigGlobals;
+use SONFin\View\ViewRenderer;
 
 class ViewPlugin implements PluginInterface
 {

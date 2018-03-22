@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace TCCP\Plugins;
+namespace SONFin\Plugins;
 
 
 use Interop\Container\ContainerInterface;
-use TCCP\Auth\Auth;
-use TCCP\Auth\JasnyAuth;
-use TCCP\ServiceContainerInterface;
+use SONFin\Auth\Auth;
+use SONFin\Auth\JasnyAuth;
+use SONFin\ServiceContainerInterface;
 
 class AuthPlugin implements PluginInterface
 {

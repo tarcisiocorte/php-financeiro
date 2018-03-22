@@ -6,10 +6,10 @@
  * Time: 19:42
  */
 
-namespace TCCP\View\Twig;
+namespace SONFin\View\Twig;
 
 
-use TCCP\Auth\AuthInterface;
+use SONFin\Auth\AuthInterface;
 
 class TwigGlobals extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {

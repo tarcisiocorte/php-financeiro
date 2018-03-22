@@ -1,8 +1,8 @@
 <?php
-use TCCP\Application;
-use TCCP\Plugins\AuthPlugin;
-use TCCP\Plugins\DbPlugin;
-use TCCP\ServiceContainer;
+use SONFin\Application;
+use SONFin\Plugins\AuthPlugin;
+use SONFin\Plugins\DbPlugin;
+use SONFin\ServiceContainer;
 
 $serviceContainer = new ServiceContainer();
 $app = new Application($serviceContainer);

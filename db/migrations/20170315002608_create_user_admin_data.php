@@ -6,7 +6,7 @@ class CreateUserAdminData extends AbstractMigration
 {
     public function up()
     {
-        /** @var \TCCP\Application $app */
+        /** @var \SONFin\Application $app */
         $app = require __DIR__ . '/../bootstrap.php';
         $auth = $app->service('auth');
 

@@ -20,7 +20,7 @@ class BillPaysSeeder extends AbstractSeed
     public function run()
     {
         require __DIR__ . '/../bootstrap.php';
-        $this->categories = \TCCP\Models\CategoryCost::all();
+        $this->categories = \SONFin\Models\CategoryCost::all();
         $faker = \Faker\Factory::create('pt_BR');
         $faker->addProvider($this);
         $billPays = $this->table('bill_pays');
